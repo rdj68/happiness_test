@@ -1,0 +1,53 @@
+<style>
+         ul {
+      border-radius: 15px;
+      list-style-type: none;
+      margin: 0;
+      padding: 12px;
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      /*14px 16px 17px 18px   ( top , right, bottom, left)*/
+      text-decoration: none;
+    }
+
+    li a:hover {
+      background-color: #125;
+    }
+    #zoom {
+  padding: 50px;
+  /* background-color: green; */
+  transition: transform .2s; /* Animation */
+  /* width: 200px;
+  height: 200px; */
+  margin: 0 auto;
+}
+#zoom:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5); 
+}
+.venue_align{
+    text-align: center;
+}
+<style>
+
+<body>
+
+    <ul>
+        <li><a class="active" href="#home">Sports</a></li>
+        <li><a href="#news">Venues</a></li>
+        <li><a href="#contact">Medal Tally</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+</body>

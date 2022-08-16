@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="front_css.css">
+  <link rel="stylesheet" href="contact.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="images/1_quiz logo.jpg" type="image/icon type">
+
+  <script>
+    scrollingElement = (document.scrollingElement || document.body)
+function scrollToBottom () {
+   scrollingElement.scrollTop = scrollingElement.scrollHeight;
+}
+function scrollToTop (id) {
+   scrollingElement.scrollTop = 0;
+}
+// function scrollSmoothToBottom () {
+//    $(scrollingElement).animate({
+//       scrollTop: document.body.scrollHeight
+//    }, 500);
+// }
+  </script>
+
+</head>
+
+<body>
+
+  <div class="header">
+    <!--<h2>Scroll Down</h2>
+  <p>Scroll down to see the sticky effect.</p>-->
+    <img id="header-image">
+    <!-- <button onClick="scrollToBottom()">Scroll to Bottom</button>
+<button onClick="scrollSmoothToBottom()">Scroll <b>Smooth</b> to Bottom</button> -->
+
+
+
+  <div id="navbar">
+    <a class="active" href="index.html">Home</a>
+    <a href="1topics.html">Topics</a>
+    <a href="javascript:void(0)"><button onClick="scrollToBottom()">Contact</button></a>
+    <li style="float: right;"><a href="index1.html"><style></style><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp About</a></li>
+  </div>
+  </div>
+  <a href="CN1_quiz.html">Take test</a>
+  <img id="main_bg1" src="images/main_bg1.png">
+  
+
+  </div>
+  
+
+  <script>
+    window.onscroll = function () { myFunction() };
+
+    var navbar = document.getElementById("navbar");
+    var sticky = navbar.offsetTop;
+
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+      } else {
+        navbar.classList.remove("sticky");
+      }
+    }
+  </script>
+
+  <!-- Start Contact Me -->
+  <div class="contact-me">
+    <div class="container">
+      <div class="info">
+        <h2>Team Captivators</h2>
+        <p class="paragrph"></p>
+        <address class="paragrph1">
+          Amrutvahini college of engineering,  <br>
+          sangamner <br>
+          Maharastra(INDIA) <br>
+        </address>
+        <p class="paragrph">
+          <strong>Email:</strong>&nbsp&nbsp&nbsp<a href="mailto:rsinghh68@gmail.com "><button><span class="material-icons">
+            email </span></button></a><br>
+          <strong>Phone:</strong>&nbsp&nbsp<a href="tel:9999999999"><button><span class="material-icons">
+            call</span></button></a>
+        </p>
+  </div>
+  <!-- End Contact Me -->
+
+
+</body>
+
+</html>
