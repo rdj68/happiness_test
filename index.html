@@ -10,15 +10,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" href="images/1_quiz logo.jpg" type="image/icon type">
 
-  <script>
-    scrollingElement = (document.scrollingElement || document.body)
-function scrollToBottom () {
-   scrollingElement.scrollTop = scrollingElement.scrollHeight;
-}
-function scrollToTop (id) {
-   scrollingElement.scrollTop = 0;
-}
-  </script>
+  <script type='text/javascript' src='index.js'></script>
 </head>
 
 
@@ -37,22 +29,6 @@ function scrollToTop (id) {
   <a href="demo.html">  <img id="main_bg1" src="images/main_bg1.jpeg"></a>
 
   </div>
-  
-
-  <script>
-    window.onscroll = function () { myFunction() };
-
-    var navbar = document.getElementById("navbar");
-    var sticky = navbar.offsetTop;
-
-    function myFunction() {
-      if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky")
-      } else {
-        navbar.classList.remove("sticky");
-      }
-    }
-  </script>
 
   <!-- Start Contact Me -->
   <div class="contact-me">
