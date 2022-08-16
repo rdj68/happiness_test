@@ -20,8 +20,6 @@ body {
   #navbar {
     overflow: hidden;
     background-color: rgb(104, 18, 68);
-    border-radius: 15px;
-
   }                            
 
   #navbar a {
