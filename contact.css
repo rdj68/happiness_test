@@ -1,0 +1,25 @@
+/* Start Contact Me */
+.contact-me {
+    background-color: #151718;
+    overflow: hidden;
+    height: 300px;
+
+  }
+  
+  .contact-me h3 {
+    color: #fff;
+    margin-left: 40px;
+  }
+  
+  .contact-me p , .contact-me address{
+    color: #cddbd8;
+    margin-left: 40px;
+  }
+  .contact-me p strong{
+    color: #d1d6da;
+  }
+
+
+
+  /* End Contact Me */
+  
