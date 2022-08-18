@@ -26,7 +26,7 @@
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
-            const quizRef = ref(database, 'test/');
+            const quizRef = ref(database, 'testTemp/');
 
             // Read questions from database
             get(quizRef).then((snap) => {
@@ -149,6 +149,9 @@ body{
     		<div class='button' id='next'><a href='#'>Next</a></div>
     		<div class='button' id='submit'> <a href='#'>Submit</a></div>
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
+            <div id="myProgress">
+                <div id="myBar"></div>
+              </div>
 
     	</div>
         </span>  <button class="home_button"><a href="index.html">HOME</a></button>
