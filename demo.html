@@ -6,35 +6,37 @@
 
         <script type='text/javascript' src='demo.js'></script>
 
+
+        
         <script type="module">
-            console.log("executing");
-            // Import the functions you need from the SDKs you need
-            
+
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
             import { getDatabase, set, ref, get } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
             const firebaseConfig = {
-                apiKey: "AIzaSyDL34KNChMfsAG6t3yo_ESRQBRZlyAq32M",
-                authDomain: "quiz-app-d170f.firebaseapp.com",
-                projectId: "quiz-app-d170f",
-                storageBucket: "quiz-app-d170f.appspot.com",
-                messagingSenderId: "692633170130",
-                appId: "1:692633170130:web:a0a8fadf53242823dd3d0b",
-                databaseURL: "https://quiz-app-d170f-default-rtdb.firebaseio.com/"
+              apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
+              authDomain: "happiness-f3909.firebaseapp.com",
+              projectId: "happiness-f3909",
+              storageBucket: "happiness-f3909.appspot.com",
+              messagingSenderId: "833703649555",
+              appId: "1:833703649555:web:c56123255b7bb49e023ae6",
+              databaseURL: "https://happiness-f3909-default-rtdb.firebaseio.com/"
             };
-
+          
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-
             const database = getDatabase(app);
-            const quizRef = ref(database, 'quizzes/');
+            const quizRef = ref(database, 'test/');
 
             // Read questions from database
             get(quizRef).then((snap) => {
                 const questions = snap.val();
+                console.log(questions);
                 presentQuestions(questions);
             });
-        </script>
+          </script>
+
+
 
         <style>
             body {
@@ -84,8 +86,8 @@ button {
 
 #container {
     margin-top: 70px;
-    margin-left: 290px;
-    width:50%;
+    margin-left: 210px;
+    width:60%;
     /* margin:auto; */
     padding: 0 25px 40px 10px;
     background-color: #2b1f42;
@@ -107,9 +109,9 @@ ul {
     display:none;
 }
 
-#start {
+#submit {
     display:none;
-    width: 90px;
+    width: 50px;
 }
 .home_button{
     border:4px solid;
@@ -129,25 +131,24 @@ ul {
 }
 body{
     background-color: khaki;
-    background-image: url(images/demoBg.jpg);
+    background-image: url(images/demoBg.jpeg);
 }
         </style>
         
-		<title>Demo_Quiz</title>
+		<title>Happiness</title>
 		<link type='text/css' rel='stylesheet' href='stylesheet.css'/>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans"/>
-        <link rel="icon" href="images/1_quiz logo.jpg" type="image/icon type">
 	</head>
 	<body>
 		<div id='container' >
 			<div id='title'>
-				<h1 style="color:rgb(240, 223, 223);">Demo Online Quiz - Test your knowledge</h1>
+				<h1 style="color:rgb(240, 223, 223);">Happiness test</h1>
 			</div>
    			<br/>
   			<div id='quiz'></div>
     		<div class='button' id='next'><a href='#'>Next</a></div>
+    		<div class='button' id='submit'> <a href='#'>Submit</a></div>
     		<div class='button' id='prev'><a href='#'>Prev</a></div>
-    		<div class='button' id='start'> <a href='#'>Start Over</a></div>
 
     	</div>
         </span>  <button class="home_button"><a href="index.html">HOME</a></button>
