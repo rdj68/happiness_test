@@ -6,6 +6,12 @@ var questions = null;
 
 // mapping of question id to answer
 const selections = {};
+const selectionsWeight = {};
+
+//total score
+var totalScore = 0;
+var maxScore = 5;
+
 
 // Index of question ID in `questionIds` of the question currently being displayed
 var currentQuestionIndex = 0;
@@ -41,6 +47,7 @@ window.onload = () => {
         
         const currentQuestionId = questionIds[currentQuestionIndex];
         selections[currentQuestionId] = getAnswerForCurrentQuestion();
+        selectionsWeight[currentQuestionId] = questions[currentQuestionId].weight
 
         // If no user selection, progress is stopped
         if (isNaN(selections[currentQuestionId])) {
@@ -60,6 +67,7 @@ window.onload = () => {
 
         const currentQuestionId = questionIds[currentQuestionIndex];
         selections[currentQuestionId] = getAnswerForCurrentQuestion();
+        selectionsWeight[currentQuestionId] = questions[currentQuestionId].weight
 
         if (isNaN(selections[currentQuestionId])) {
             alert('Please make a selection!');
@@ -68,6 +76,38 @@ window.onload = () => {
 
         currentQuestionIndex = Math.max(0, currentQuestionIndex - 1);
         displayQuestion();
+    });
+
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        if (quizView.is(':animated')) {
+            return false;
+        }
+        //total no of questions
+        totalQuestion = Object.keys(questions).length
+
+        const currentQuestionId = questionIds[currentQuestionIndex];
+        selections[currentQuestionId] = getAnswerForCurrentQuestion();
+        selectionsWeight[currentQuestionId] = questions[currentQuestionId].weight
+        
+
+        if (isNaN(selections[currentQuestionId])) {
+            alert('Please make a selection!');
+            return;
+        }
+
+        //Calculation of total score
+        for (let i=1; i<=currentQuestionId; i++){
+            totalScore = totalScore + (selections[i] +1) * selectionsWeight[i];
+            console.log(totalScore)
+        }
+        totalScore = totalScore/totalQuestion
+        console.log(totalScore)
+        
+        currentQuestionIndex = Math.max(0, currentQuestionIndex - 1);
+
+        displayResult(totalScore,5)
+        
     });
 };
 
@@ -100,7 +140,7 @@ function createQuestionElement(question, questionNumber) {
         id: 'question'
     });
 
-    var header = $('<h2>Question ' + questionNumber + ':</h2>');
+    var header = $('<h2>Question ' + questionNumber + ':</h2>' );
     qElement.append(header);
 
     qElement.append($('<p>').append(question.question));
@@ -142,8 +182,25 @@ function displayQuestion() {
         }
         if (currentQuestionIndex < questionIds.length - 1) {
             $('#next').show();
+            $('#submit').hide()
         } else {
             $('#next').hide();
+            $('#submit').show()
         }
+    });
+}
+
+//To display the final result
+function displayResult(score,maxScore){
+
+    const quizView = $('#quiz');
+
+    quizView.fadeOut(function () {
+        $('#question').remove();
+
+        quizView.append("Your score is "+ score/maxScore * 100).fadeIn();
+        $('#prev').hide();
+        $('#submit').hide()
+
     });
 }
