@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+import { getDatabase, set, ref, get,push } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+
 // list of question IDs in the order which they must be shown
 var questionIds = null;
 
@@ -11,19 +14,38 @@ const selections = {};
 var totalScore = 0;
 var maxScore = 5;
 
-//Result refrence
-var resultRef = null;
 
 // Index of question ID in `questionIds` of the question currently being displayed
 var currentQuestionIndex = 0;
 
+ const firebaseConfig = {
+   apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
+   authDomain: "happiness-f3909.firebaseapp.com",
+   projectId: "happiness-f3909",
+   storageBucket: "happiness-f3909.appspot.com",
+   messagingSenderId: "833703649555",
+   appId: "1:833703649555:web:c56123255b7bb49e023ae6",
+   databaseURL: "https://happiness-f3909-default-rtdb.firebaseio.com/"
+ };
 
+ // Initialize Firebase
+ const app = initializeApp(firebaseConfig);
+ const database = getDatabase(app);
+ const quizRef = ref(database, 'test/');
+ const resultRef = push(ref(database,'result'))
+
+ // Read questions from database
+ get(quizRef).then((snap) => {
+     const questions = snap.val();
+     presentQuestions(questions);
+ });
+
+ 
 /**
  * Starts presenting questions received from Firebase
  *
  * @param {*} q the questions object from Firebase
  */
-
 function presentQuestions(q) {
     questions = q;
     questionIds = Object.keys(q);
@@ -114,8 +136,8 @@ window.onload = () => {
 
         
         console.log(weightedMean)
-        displayResult(weightedMean,5)
-        
+        displayResult(weightedMean)
+        updateResult(selections,resultRef)
     });
 };
 
@@ -199,7 +221,7 @@ function displayQuestion() {
 }
 
 //To display the final result
-function displayResult(score,maxScore){
+function displayResult(score){
 
     const quizView = $('#quiz');
 
@@ -211,4 +233,11 @@ function displayResult(score,maxScore){
         $('#submit').hide()
 
     });
+}
+
+//Update result to database
+function updateResult(result,resultRefrence){
+    set(resultRefrence,{
+        question:result
+    })
 }
