@@ -11,7 +11,7 @@
         <script type="module">
 
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-            import { getDatabase, set, ref, get } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+            import { getDatabase, set, ref, get,push } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
             const firebaseConfig = {
               apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
@@ -26,14 +26,15 @@
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
-            const quizRef = ref(database, 'testTemp/');
+            const quizRef = ref(database, 'test/');
+            const resultRef = push(ref(database,'result'))
 
             // Read questions from database
             get(quizRef).then((snap) => {
                 const questions = snap.val();
-                console.log(questions);
                 presentQuestions(questions);
             });
+        
           </script>
 
 
@@ -131,7 +132,7 @@ ul {
 }
 body{
     background-color: khaki;
-    background-image: url(images/demoBg.jpeg);
+    background-image: url(images/bg.png);
 }
         </style>
         

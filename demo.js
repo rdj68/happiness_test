@@ -11,15 +11,19 @@ const selections = {};
 var totalScore = 0;
 var maxScore = 5;
 
+//Result refrence
+var resultRef = null;
 
 // Index of question ID in `questionIds` of the question currently being displayed
 var currentQuestionIndex = 0;
+
 
 /**
  * Starts presenting questions received from Firebase
  *
  * @param {*} q the questions object from Firebase
  */
+
 function presentQuestions(q) {
     questions = q;
     questionIds = Object.keys(q);
@@ -95,23 +99,22 @@ window.onload = () => {
         }
 
         //Calculation of total score
-        for (let i=1; i<=currentQuestionId; i++){
+        var summationWeight = 0;
+        const weightedScores = questionIds.map((questionId) => {
+            const invert = questions[questionId].invert;
+            const weight = questions[questionId].weight;
+            const selection = selections[questionId];
 
-            if (questions[i].invert){
-                currentSelection = maxScore -selections[i]
-                console.log(currentSelection,selections[i])
-            }else{
-                currentSelection = selections[i] +1
-            }
+            summationWeight = summationWeight + weight
+         
+            return ((invert ? selection + 1 : maxScore - selection) / 5) * weight;
+        }); 
+        const weightedMean = weightedScores.reduce((a, b) => a + b) / summationWeight;
 
 
-            totalScore = totalScore + currentSelection * questions[i].weight;
-            console.log(totalScore)
-        }
-        totalScore = totalScore/totalQuestion
-        console.log(totalScore)
         
-        displayResult(totalScore,5)
+        console.log(weightedMean)
+        displayResult(weightedMean,5)
         
     });
 };
@@ -203,7 +206,7 @@ function displayResult(score,maxScore){
     quizView.fadeOut(function () {
         $('#question').remove();
 
-        quizView.append("Your score is "+ score/maxScore * 100).fadeIn();
+        quizView.append("Your score is "+ score * 100).fadeIn();
         $('#prev').hide();
         $('#submit').hide()
 
