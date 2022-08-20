@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+        <script type='module' src='schoolSurvey.js'></script>
+    
+        <style>
+            body {
+    font-family: Open Sans;
+}
+
+h1 {
+    text-align: center;
+}
+
+#title {
+    text-decoration: underline;
+}
+
+#quiz {
+    text-indent: 10px;
+    display:none;
+}
+
+.button {
+    border:4px solid;
+    border-radius:5px;
+    width: 40px;
+    padding-left:5px;
+    padding-right: 5px;
+    position: relative;
+    float:right;
+    background-color: #DCDCDC;
+    color: black;
+    margin: 0 2px 0 2px;
+}
+
+.button.active {
+    background-color: #F8F8FF;
+    color: #525252;
+}
+
+button {
+    position: relative;
+    float:right;
+}
+
+.button a {
+    text-decoration: none;
+    color: black;
+}
+
+#container {
+    margin-top: 70px;
+    margin-left: 210px;
+    width:60%;
+    /* margin:auto; */
+    padding: 0 25px 40px 10px;
+    background-color: #2b1f42;
+    background-image: url(images/black.jpg);
+    border:4px solid #B0E0E6;
+    border-radius:5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    box-shadow: 5px 5px 5px #888;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#prev {
+    display:none;
+}
+
+#submit {
+    display:none;
+    width: 50px;
+}
+.home_button{
+    border:4px solid;
+    border-radius:5px;
+    width: 70px;
+    padding-left:5px;
+    padding-right: 5px;
+    position: relative;
+    float:right;
+    background-color: #DCDCDC;
+    color: black;
+    margin: 30px 650px 0 ;
+}
+.home_button a{
+    text-decoration: none;
+    color: black;
+}
+body{
+    background-color: khaki;
+    background-image: url(images/bg.png);
+}
+        </style>
+        
+		<title>Happiness</title>
+		<link type='text/css' rel='stylesheet' href='stylesheet.css'/>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans"/>
+	</head>
+	<body>
+		<div id='container' >
+			<div id='title'>
+				<h1 style="color:rgb(240, 223, 223);">Tell us about your school.</h1>
+			</div>
+   			<br/>
+  			<div id='quiz'></div>
+    		<div class='button' id='next'><a href='#'>Next</a></div>
+    		<div class='button' id='submit'> <a href='#'>Submit</a></div>
+    		<div class='button' id='prev'><a href='#'>Prev</a></div>
+            <div id="myProgress">
+                <div id="myBar"></div>
+              </div>
+
+    	</div>
+        </span>  <button class="home_button"><a href="index.html">HOME</a></button>
+
+	</body>
+</html>
