@@ -2,24 +2,14 @@ body {
     margin: 0;
     font-size: 28px;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(images/index_bg.jpg);
+    background-image: url(images/bg.png);
     background-repeat: no-repeat;
     background-attachment: fixed;
     
   }
-
-  #header-image {
-    background-image: url("images/abstract_black_blue_smoke.jpg");
-    width: 100%;
-    height: 100px;
-    background-repeat: no-repeat;
-
-  }
-
-
   #navbar {
     overflow: hidden;
-    background-color: rgb(104, 18, 68);
+    background-color: black;
   }                            
 
   #navbar a {
@@ -39,7 +29,6 @@ body {
   }
 
   #navbar a.active {
-    background-color: #64c514;
     color: white;
   }
 
