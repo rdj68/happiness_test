@@ -125,5 +125,5 @@ function finishLogin(name, email, state, district) {
     };
     localStorage.setItem("info", JSON.stringify(obj));
 
-    window.location = "/demo.html";
+    window.location = "/mentalHealth.html";
 }
