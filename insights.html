@@ -1,15 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script type="module" src="insights.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <style>
+        .columns{
+            padding: 20px;
+        }
+    </style>
+    </head>
 <body>
-    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" >
+            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="index.html">
+              Home
+            </a>
+      
+            <a class="navbar-item" href="insights.html">
+              Insights
+            </a>
+      
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+      <div class="columns is-mobile">
 
+        <div class="column">    
+            <h1 class="title">Controls </h1>
+            <div class="columns">
+                <div class="column">
+                    <span class="tag is-large is-white">Graph properties</span>
+                    <span class="tag is-large is-white pt-4">Graph type</span>
+                </div>
+                <div class="column">
+                    <div class="select is-danger">
+                        <select id="select-data">
+                          <option>Select data</option>
+                        </select>
+                      </div>
+                      <div class="select is-danger pt-3">
+                        <select id="select-chart">
+                          <option>Select chart type</option>
+                          <option>With options</option>
+                        </select>
+                      </div>
+                </div>
+              </div> 
+            
+        </div>
+        <div class="column is-two-thirds">
+            <canvas id="myChart" ></canvas>
+        </div>
+        </div>
 </body>
 </html>
