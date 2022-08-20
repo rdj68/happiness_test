@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
             integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-        <script type="module" src="insights.js"></script>
+        <script type="module" src="script/insights.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <style>
         .columns{
@@ -49,31 +49,33 @@
           </div>
         </div>
     </nav>
-      <div class="columns is-mobile">
+      <div class="columns">
 
         <div class="column">    
             <h1 class="title">Controls </h1>
             <div class="columns">
                 <div class="column">
                     <span class="tag is-large is-white">Graph properties</span>
-                    <span class="tag is-large is-white pt-4">Graph type</span>
+                    <span class="tag is-large is-white mt-4">Graph type</span>
+                    
                 </div>
                 <div class="column">
-                    <div class="select is-danger">
+                    <div class="select ">
                         <select id="select-data">
                           <option>Select data</option>
                         </select>
                       </div>
-                      <div class="select is-danger pt-3">
+                      <div class="select  mt-3">
                         <select id="select-chart">
                           <option>Select chart type</option>
-                          <option>With options</option>
                         </select>
                       </div>
-                </div>
-              </div> 
-            
-        </div>
+                      <div class="block">  
+                      <button class="button mt-4 is-black">Submit</button>
+                      </div>
+                    </div>
+                  </div> 
+              </div>
         <div class="column is-two-thirds">
             <canvas id="myChart" ></canvas>
         </div>
