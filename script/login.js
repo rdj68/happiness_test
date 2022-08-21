@@ -14,6 +14,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = db.getDatabase(app);
+var id = localStorage.getItem("id");
+var resultRef = db.ref(database,'result/'+id);
 
 const regionsRef = db.ref(database, 'regions');
 const statesRef = db.ref(database, 'states');
@@ -116,6 +118,13 @@ function onClickLogin() {
     }
 }
 
+//Update result to database
+function updateResult(result, resultReference) {
+    db.set(resultReference, {
+        info: result
+    });
+}
+
 function finishLogin(name, email, state, district) {
     const obj = {
         name: name,
@@ -123,7 +132,12 @@ function finishLogin(name, email, state, district) {
         state: state,
         district: district,
     };
-    localStorage.setItem("info", JSON.stringify(obj));
-
+    
+    if(!id){
+        resultRef = db.push(db.ref(database, 'result'));
+        id = resultRef.key
+        localStorage.setItem("id", id);
+    };
+    updateResult(obj,resultRef);
     window.location = "/mentalHealth.html";
-}
+};

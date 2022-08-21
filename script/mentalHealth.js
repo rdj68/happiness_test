@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-import { getDatabase, set, ref, get, push } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
 // list of question IDs in the order which they must be shown
 var questionIds = null;
@@ -32,7 +32,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const quizRef = ref(database, 'mentalTest/');
-const resultRef = push(ref(database, 'result'));
+const id = localStorage.getItem("id")
+
+//to check if id exists
+checkId()
+
+const resultRef = ref(database, 'result/' + id)
 
 // Read questions from database
 get(quizRef).then((snap) => {
@@ -131,8 +136,9 @@ window.onload = () => {
 
 
         console.log(weightedMean);
-        displayResult(weightedMean);
+        localStorage.setItem("score",weightedMean)
         updateResult(selections, resultRef);
+        window.location = '/schoolSurvey.html';
     });
 };
 
@@ -221,22 +227,29 @@ function displayQuestion() {
 }
 
 //To display the final result
-function displayResult(score) {
+// function displayResult(score) {
 
-    const quizView = $('#quiz');
+//     const quizView = $('#quiz');
 
-    quizView.fadeOut(function () {
-        $('#question').remove();
+//     quizView.fadeOut(function () {
+//         $('#question').remove();
 
-        quizView.append(`Your score is ${score * 100}`).fadeIn();
-        $('#prev').hide();
-        $('#submit').hide();
-    });
-}
+//         quizView.append(`Your score is ${score * 100}`).fadeIn();
+//         $('#prev').hide();
+//         $('#submit').hide();
+//     });
+// }
 
 //Update result to database
 function updateResult(result, resultReference) {
-    set(resultReference, {
+    console.log(result)
+    update(resultReference, {
         question: result
     });
+}
+//to redirect to login page if id doesnot exist
+function checkId() {
+    if (!id) {
+        window.location = "/login.html"
+    }
 }
