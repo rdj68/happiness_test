@@ -138,7 +138,7 @@ window.onload = () => {
         console.log(weightedMean);
         localStorage.setItem("score",weightedMean)
         updateResult(selections, resultRef);
-        window.location = '/schoolSurvey.html';
+        window.location = 'schoolSurvey.html';
     });
 };
 
@@ -250,6 +250,6 @@ function updateResult(result, resultReference) {
 //to redirect to login page if id doesnot exist
 function checkId() {
     if (!id) {
-        window.location = "/login.html"
+        window.location = "login.html"
     }
 }
