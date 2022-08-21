@@ -1,4 +1,5 @@
 //to check if id exists
+const id = localStorage.getItem("id")
 checkId()
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
@@ -35,8 +36,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const quizRef = ref(database, 'mentalTest/');
-const id = localStorage.getItem("id")
 const resultRef = ref(database, 'result/' + id)
+const infoRef = ref(database, 'result/' + id + '/info')
 
 // Read questions from database
 get(quizRef).then((snap) => {
@@ -136,7 +137,7 @@ window.onload = () => {
 
         console.log(weightedMean);
         localStorage.setItem("score",weightedMean)
-        updateResult(selections, resultRef);
+        updateResult(selections, resultRef,weightedMean);
         window.location = 'schoolSurvey.html';
     });
 };
@@ -240,10 +241,13 @@ function displayQuestion() {
 // }
 
 //Update result to database
-function updateResult(result, resultReference) {
+function updateResult(result, resultReference,score) {
     console.log(result)
     update(resultReference, {
         question: result
+    });
+    update(infoRef, {
+        score:score
     });
 }
 //to redirect to login page if id doesnot exist
