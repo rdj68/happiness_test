@@ -1,3 +1,6 @@
+//to check if id exists
+checkId()
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
@@ -33,10 +36,6 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const quizRef = ref(database, 'mentalTest/');
 const id = localStorage.getItem("id")
-
-//to check if id exists
-checkId()
-
 const resultRef = ref(database, 'result/' + id)
 
 // Read questions from database
