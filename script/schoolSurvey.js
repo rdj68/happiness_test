@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-import { getDatabase, set, ref, get,push } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
 // list of question IDs in the order which they must be shown
 var questionIds = null;
@@ -14,33 +14,40 @@ const selections = {};
 var totalScore = 0;
 var maxScore = 5;
 
+const happinessScore = localStorage.getItem("score")
+
 
 // Index of question ID in `questionIds` of the question currently being displayed
 var currentQuestionIndex = 0;
 
- const firebaseConfig = {
-   apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
-   authDomain: "happiness-f3909.firebaseapp.com",
-   projectId: "happiness-f3909",
-   storageBucket: "happiness-f3909.appspot.com",
-   messagingSenderId: "833703649555",
-   appId: "1:833703649555:web:c56123255b7bb49e023ae6",
-   databaseURL: "https://happiness-f3909-default-rtdb.firebaseio.com/"
- };
+const firebaseConfig = {
+    apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
+    authDomain: "happiness-f3909.firebaseapp.com",
+    projectId: "happiness-f3909",
+    storageBucket: "happiness-f3909.appspot.com",
+    messagingSenderId: "833703649555",
+    appId: "1:833703649555:web:c56123255b7bb49e023ae6",
+    databaseURL: "https://happiness-f3909-default-rtdb.firebaseio.com/"
+};
 
- // Initialize Firebase
- const app = initializeApp(firebaseConfig);
- const database = getDatabase(app);
- const quizRef = ref(database, 'test/');
- const resultRef = push(ref(database,'mentalTest'))
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const quizRef = ref(database, 'schoolSurvey/');
+const id = localStorage.getItem("id")
 
- // Read questions from database
- get(quizRef).then((snap) => {
-     const questions = snap.val();
-     presentQuestions(questions);
- });
+//to check if id exists
+checkId()
 
- 
+const resultRef = ref(database, 'result/' + id)
+
+// Read questions from database
+get(quizRef).then((snap) => {
+    const questions = snap.val();
+    presentQuestions(questions);
+});
+
+
 /**
  * Starts presenting questions received from Firebase
  *
@@ -69,7 +76,7 @@ window.onload = () => {
         if (quizView.is(':animated')) {
             return false;
         }
-        
+
         const currentQuestionId = questionIds[currentQuestionIndex];
         selections[currentQuestionId] = getAnswerForCurrentQuestion();
 
@@ -106,14 +113,10 @@ window.onload = () => {
         if (quizView.is(':animated')) {
             return false;
         }
-        //total no of questions
-        var totalQuestion = Object.keys(questions).length
-        var currentSelection = 0
 
         const currentQuestionId = questionIds[currentQuestionIndex];
         selections[currentQuestionId] = getAnswerForCurrentQuestion();
 
-        
 
         if (isNaN(selections[currentQuestionId])) {
             alert('Please make a selection!');
@@ -121,23 +124,22 @@ window.onload = () => {
         }
 
         //Calculation of total score
-        var summationWeight = 0;
-        const weightedScores = questionIds.map((questionId) => {
-            const invert = questions[questionId].invert;
-            const weight = questions[questionId].weight;
-            const selection = selections[questionId];
+        // var summationWeight = 0;
+        // const weightedScores = questionIds.map((questionId) => {
+        //     const invert = questions[questionId].invert;
+        //     const weight = questions[questionId].weight;
+        //     const selection = selections[questionId];
 
-            summationWeight = summationWeight + weight
-         
-            return ((invert ? selection + 1 : maxScore - selection) / 5) * weight;
-        }); 
-        const weightedMean = weightedScores.reduce((a, b) => a + b) / summationWeight;
+        //     summationWeight = summationWeight + weight;
+
+        //     return ((invert ? selection + 1 : maxScore - selection) / 5) * weight;
+        // });
+        // const weightedMean = weightedScores.reduce((a, b) => a + b) / summationWeight;
 
 
-        
-        console.log(weightedMean)
-        displayResult(weightedMean)
-        updateResult(selections,resultRef)
+        // console.log(weightedMean);
+        displayResult(Number(happinessScore));
+        updateResult(selections, resultRef);
     });
 };
 
@@ -145,19 +147,21 @@ window.onload = () => {
  * Creates a list of the answer choices as radio inputs
  */
 function createOptions() {
-    var radioList = $('<ul>');
-    var item;
-    var input = '';
+    const radioList = $('<ul>');
+    const options = ["*", "Disagree", "Neutral", "Agree", "Strongly Agree"];
 
-    const options = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
-
-    for (var i = 0; i < options.length; i++) {
-        item = $('<li>');
-        input = '<input type="radio" name="answer" value=' + i + ' />';
-        input += options[i];
+    options.forEach((option, inx) => {
+        const item = $('<li>');
+        const input = `
+            <label class="radio">
+                <input type="radio" name="answer" value="${inx}"/>
+                ${option}
+            </label>
+        `
         item.append(input);
         radioList.append(item);
-    }
+    });
+
     return radioList;
 }
 
@@ -166,16 +170,15 @@ function createOptions() {
  * the answer selections
  */
 function createQuestionElement(question, questionNumber) {
-    var qElement = $('<div>', {
+    const qElement = $('<div>', {
         id: 'question'
     });
 
-    var header = $('<h2>Question ' + questionNumber + ':</h2>' );
+    const header = $(`<h2 class="subtitle is-size-4">Question #${questionNumber}</h2>`);
     qElement.append(header);
+    qElement.append($('<h3 class="is-size-5 has-text-weight-bold mb-3">').append(question.question));
 
-    qElement.append($('<p>').append(question.question));
-
-    var radioButtons = createOptions();
+    const radioButtons = createOptions();
     qElement.append(radioButtons);
 
     return qElement;
@@ -191,6 +194,10 @@ function displayQuestion() {
     const currentQuestionId = questionIds[currentQuestionIndex];
     const question = questions[currentQuestionId];
 
+    const progress = $("#progress");
+    progress.attr("max", questionIds.length);
+    progress.val(currentQuestionIndex);
+
     quizView.fadeOut(function () {
         $('#question').remove();
 
@@ -202,7 +209,7 @@ function displayQuestion() {
         if (!(isNaN(selectedOption))) {
             $('input[value=' + selectedOption + ']').prop('checked', true);
         }
-        
+
         // Show/hide prev and next buttons depending on
         // whether or not we are at first or last question
         if (currentQuestionIndex > 0) {
@@ -215,29 +222,35 @@ function displayQuestion() {
             $('#submit').hide()
         } else {
             $('#next').hide();
-            $('#submit').show()
+            $('#submit').show();
         }
     });
 }
 
 //To display the final result
-function displayResult(score){
+function displayResult(score) {
 
     const quizView = $('#quiz');
 
     quizView.fadeOut(function () {
         $('#question').remove();
 
-        quizView.append("Your score is "+ score * 100).fadeIn();
+        quizView.append(`Your score is ${score * 100}`).fadeIn();
         $('#prev').hide();
-        $('#submit').hide()
-
+        $('#submit').hide();
     });
 }
 
 //Update result to database
-function updateResult(result,resultRefrence){
-    set(resultRefrence,{
-        question:result
-    })
+function updateResult(result, resultReference) {
+    console.log(result)
+    update(resultReference, {
+        survey: result
+    });
+}
+//to redirect to login page if id doesnot exist
+function checkId() {
+    if (!id) {
+        window.location = "/login.html"
+    }
 }
