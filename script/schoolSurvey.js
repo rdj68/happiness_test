@@ -140,6 +140,7 @@ window.onload = () => {
         // console.log(weightedMean);
         displayResult(Number(happinessScore));
         updateResult(selections, resultRef);
+        localStorage.clear("id","score")
     });
 };
 

@@ -35,7 +35,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const quizRef = ref(database, 'mentalTest/');
+const quizRef = ref(database, 'testTemp/');
 const resultRef = ref(database, 'result/' + id)
 const infoRef = ref(database, 'result/' + id + '/info')
 
@@ -130,12 +130,10 @@ window.onload = () => {
 
             summationWeight = summationWeight + weight;
 
-            return ((invert ? selection + 1 : maxScore - selection) / 5) * weight;
+            return ((invert ? maxScore - selection :  selection + 1) / 5) * weight;
         });
-        const weightedMean = weightedScores.reduce((a, b) => a + b) / summationWeight;
+        const weightedMean = (weightedScores.reduce((a, b) => a + b) / summationWeight);
 
-
-        console.log(weightedMean);
         localStorage.setItem("score",weightedMean)
         updateResult(selections, resultRef,weightedMean);
         window.location = 'schoolSurvey.html';

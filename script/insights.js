@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-import { getDatabase, ref, get, query, equalTo, orderByChild } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+import { getDatabase, ref, get, query, equalTo, orderByChild, onChildAdded } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
@@ -15,18 +15,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const resultRef = ref(database, 'result');
+var x = {};
 
-const q1 = query(resultRef,equalTo("info"))
-console.log(q1)
-// get(q1).then((snap) => {
-//   const resultData = snap.val();
-//   console.log(Object.values(resultData))
-// });
+const  stateRef= query(resultRef,orderByChild("info/state"), equalTo("Maharashtra"));
+onChildAdded(stateRef,(snap) => {
+  const stateData = snap.val()
+  representData(stateData)
+});
 
-
+function representData(data){
+  const scores = data["info"]["score"]
+  // const averagScore = scores.reduce((a,b) => a+b) / scores.length()
+  console.log([11,2,3].reduce((a,b)=>a+b))
+  console.log(scores)
+}
 
 var xValues = ["Italy", "France", "Spain", "USA", "Argentina", "dttrht", "ejkfwwi", "rjhrh", "rjhrh", "rjhrh", "rjhrh", "rjhrh", "rjhrh"];
-var yValues = [55, 49, 44, 24, 15];
+var yValues = [5,60,0,0];
 var barColors = ["red", "green", "blue", "orange", "brown"];
 
 
