@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = db.getDatabase(app);
 var id = localStorage.getItem("id");
-var resultRef = db.ref(database,'result/'+id);
+var resultRef = db.ref(database, 'result/' + id);
 
 const regionsRef = db.ref(database, 'regions');
 const statesRef = db.ref(database, 'states');
@@ -29,6 +29,12 @@ db.get(statesRef).then((snap) => {
         selectState.append(`<option>${state}</option>`);
     });
 });
+
+//Append options to class
+$("#select-class > option:not([data-default])").remove();
+const selectClass = $("#select-class");
+selectClass.append(`<option>${"5-8"}</option>`);
+selectClass.append(`<option>${"9-12"}</option>`);
 
 $(() => {
     $("#select-state").change(() => {
@@ -57,9 +63,17 @@ $(() => {
         $("#help-name").addClass("is-hidden");
     });
 
+    $("#input-school").change(() => {
+        $("#help-name").addClass("is-hidden");
+    });
+
     $("#input-email").change(() => {
         $("#help-email").addClass("is-hidden");
     });
+    $("#select-class").change(() => {
+        $("#help-class").addClass("is-hidden");
+    });
+
 
     $("#login-button").on("click", onClickLogin);
 });
@@ -83,16 +97,23 @@ async function loadDistricts(ref) {
 function onClickLogin() {
     const selectedState = $("#select-state").find("option:selected");
     const selectedDistrict = $("#select-district").find("option:selected");
+    const selectedClass = $("#select-class").find("option:selected");
     const name = $("#input-name").val();
     const email = $("#input-email").val();
+    const school = $("#input-school").val();
 
     const isSelectedStateDefault = selectedState.attr("data-default") !== undefined;
     const isSelectedDistrictDefault = selectedDistrict.attr("data-default") !== undefined;
+    const isSelectedClassDefault = selectedDistrict.attr("data-default") !== undefined;
 
     var hasErrors = false;
 
     if (isSelectedStateDefault) {
         $("#help-state").removeClass("is-hidden");
+        hasErrors = true;
+    }
+    if (isSelectedClassDefault) {
+        $("#help-class").removeClass("is-hidden");
         hasErrors = true;
     }
     if (isSelectedDistrictDefault) {
@@ -107,13 +128,19 @@ function onClickLogin() {
         $("#help-email").removeClass("is-hidden");
         hasErrors = true;
     }
+    if (typeof school === "string" && school.trim() === "") {
+        $("#help-school").removeClass("is-hidden");
+        hasErrors = true;
+    }
 
     if (!hasErrors) {
         finishLogin(
             name,
             email,
             selectedState.val(),
-            selectedDistrict.val()
+            selectedDistrict.val(),
+            selectedClass.val(),
+            school
         );
     }
 }
@@ -125,19 +152,22 @@ function updateResult(result, resultReference) {
     });
 }
 
-function finishLogin(name, email, state, district) {
+function finishLogin(name, email, state, district,classChoice,school) {
     const obj = {
         name: name,
         email: email,
+        school:school,
         state: state,
         district: district,
+        class:classChoice
     };
-    
-    if(!id){
+
+    if (!id) {
         resultRef = db.push(db.ref(database, 'result'));
         id = resultRef.key
         localStorage.setItem("id", id);
+        localStorage.setItem("class", classChoice);
     };
-    updateResult(obj,resultRef);
+    updateResult(obj, resultRef);
     window.location = "mentalHealth.html";
 };

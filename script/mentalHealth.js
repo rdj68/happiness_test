@@ -32,14 +32,17 @@ const firebaseConfig = {
     databaseURL: "https://happiness-f3909-default-rtdb.firebaseio.com/"
 };
 
+//To get class data
+const classChoice = localStorage.getItem("class")
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const quizRef = ref(database, 'mentalTest/');
+const quizRef = ref(database, 'happinessTestTemp/'+classChoice);
 const resultRef = ref(database, 'result/' + id)
 const infoRef = ref(database, 'result/' + id + '/info')
 
- 
 // Read questions from database
 get(quizRef).then((snap) => {
     const questions = snap.val();
@@ -135,9 +138,10 @@ window.onload = () => {
         });
         const weightedMean = Number((weightedScores.reduce((a, b) => a + b) / summationWeight).toFixed(2));
 
-        localStorage.setItem("score",weightedMean)
         updateResult(selections, resultRef,weightedMean);
-        window.location = 'schoolSurvey.html';
+        displayResult(weightedMean)
+        localStorage.clear("id")
+        localStorage.clear("class")
     });
 };
 
@@ -226,18 +230,18 @@ function displayQuestion() {
 }
 
 //To display the final result
-// function displayResult(score) {
+function displayResult(score) {
 
-//     const quizView = $('#quiz');
+    const quizView = $('#quiz');
 
-//     quizView.fadeOut(function () {
-//         $('#question').remove();
+    quizView.fadeOut(function () {
+        $('#question').remove();
 
-//         quizView.append(`Your score is ${score * 100}`).fadeIn();
-//         $('#prev').hide();
-//         $('#submit').hide();
-//     });
-// }
+        quizView.append(`Your score is ${score * 100}`).fadeIn();
+        $('#prev').hide();
+        $('#submit').hide();
+    });
+}
 
 //Update result to database
 function updateResult(result, resultReference,score) {
