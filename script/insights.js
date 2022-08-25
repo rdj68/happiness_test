@@ -16,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const resultRef = ref(database, 'average/state');
 const statesRef = ref(database, 'states');
+var myChart = null
 
 const selectData = $("#select-data");
 selectData.append(`<option>${"score"}</option>`);
@@ -24,7 +25,7 @@ selectData.append(`<option>${"users"}</option>`);
 const selectChart = $("#select-chart");
 selectChart.append(`<option>${"bar"}</option>`);
 selectChart.append(`<option>${"line"}</option>`);
-// selectChart.append(`<option>${"pie"}</option>`);
+selectChart.append(`<option>${"pie"}</option>`);
 
 // To detect change in data dropdown
 $(() => {
@@ -62,10 +63,10 @@ $(() => {
 
 
 function createChart(xValues, yValues, barColors, type) {
-  var c = document.getElementById("myChart");
-  var ctx = c.getContext("2d");
-  ctx.clearRect(0, 0, 1000, 500);
-  new Chart("myChart", {
+  if(myChart){
+    myChart.destroy()
+  }
+  myChart = new Chart("myChart", {
     type: type,
     data: {
       labels: xValues,

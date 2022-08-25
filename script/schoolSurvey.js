@@ -1,6 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
+//to check if id exists
+const id = localStorage.getItem("id")
+checkId()
 // list of question IDs in the order which they must be shown
 var questionIds = null;
 
@@ -15,7 +18,6 @@ var totalScore = 0;
 var maxScore = 5;
 
 const happinessScore = localStorage.getItem("score")
-
 
 // Index of question ID in `questionIds` of the question currently being displayed
 var currentQuestionIndex = 0;
@@ -34,10 +36,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const quizRef = ref(database, 'schoolSurvey/');
-const id = localStorage.getItem("id")
-
-//to check if id exists
-checkId()
 
 const resultRef = ref(database, 'result/' + id)
 
@@ -140,6 +138,7 @@ window.onload = () => {
         // console.log(weightedMean);
         displayResult(Number(happinessScore));
         updateResult(selections, resultRef);
+        localStorage.clear("id","score")
     });
 };
 
@@ -148,7 +147,7 @@ window.onload = () => {
  */
 function createOptions() {
     const radioList = $('<ul>');
-    const options = ["*", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+    const options = ["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"];
 
     options.forEach((option, inx) => {
         const item = $('<li>');
@@ -230,6 +229,7 @@ function displayQuestion() {
 //To display the final result
 function displayResult(score) {
 
+    $('#title').hide()
     const quizView = $('#quiz');
 
     quizView.fadeOut(function () {

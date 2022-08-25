@@ -39,6 +39,7 @@ const quizRef = ref(database, 'mentalTest/');
 const resultRef = ref(database, 'result/' + id)
 const infoRef = ref(database, 'result/' + id + '/info')
 
+ 
 // Read questions from database
 get(quizRef).then((snap) => {
     const questions = snap.val();
@@ -130,12 +131,10 @@ window.onload = () => {
 
             summationWeight = summationWeight + weight;
 
-            return ((invert ? selection + 1 : maxScore - selection) / 5) * weight;
+            return ((invert ? maxScore - selection :  selection + 1) / 5) * weight;
         });
-        const weightedMean = weightedScores.reduce((a, b) => a + b) / summationWeight;
+        const weightedMean = Number((weightedScores.reduce((a, b) => a + b) / summationWeight).toFixed(2));
 
-
-        console.log(weightedMean);
         localStorage.setItem("score",weightedMean)
         updateResult(selections, resultRef,weightedMean);
         window.location = 'schoolSurvey.html';
@@ -247,7 +246,13 @@ function updateResult(result, resultReference,score) {
         question: result
     });
     update(infoRef, {
-        score:score
+        score:score*100
+    });
+
+    //To get the state info and pass it to updateAverage function
+    get(infoRef).then((snap) => {
+        const info = snap.val();
+        updateAverage(info["state"],score)
     });
 }
 //to redirect to login page if id doesnot exist
@@ -255,4 +260,24 @@ function checkId() {
     if (!id) {
         window.location = "login.html"
     }
+}
+
+function updateAverage(state,score){
+    const averageRef = ref(database,"average/state/"+state)
+
+    get(averageRef).then((snap) => {
+        const state = snap.val();
+        if(state["totalUsers"]){
+            update(averageRef, {
+                totalUsers: state["totalUsers"] + 1,
+                averageScore:(state["averageScore"] * state["totalUsers"]+score*100)/(state["totalUsers"] +1)
+});
+        }else{
+            update(averageRef, {
+                averageScore:score*100,
+                totalUsers:1
+
+            });
+        }
+    });
 }
