@@ -31,7 +31,7 @@
                             <span class="icon is-small is-left">
                                 <i class="fas fa-user"></i>
                             </span>
-                            <p id="help-name" class="help is-danger is-hidden">Please enter your name</p>
+                        <p id="help-name" class="help is-danger is-hidden">Please enter your name</p>
                         </p>
                     </div>
 
@@ -42,11 +42,30 @@
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
-                            <p id="help-email" class="help is-danger is-hidden">Please enter your e-mail</p>
+                        <p id="help-email" class="help is-danger is-hidden">Please enter your e-mail</p>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <label class="label">School</label>
+                        <p class="control has-icons-left has-icons-right">
+                            <input id="input-school" class="input" type="text" placeholder="Your school name">
+                            <!-- <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span> -->
+                        <p id="help-name" class="help is-danger is-hidden">Please enter your school name</p>
                         </p>
                     </div>
 
                     <div class="dropdown-divider mt-5 mb-5"></div>
+                    <div class="field">
+                        <label class="label">Class</label>
+                        <div class="select">
+                            <select id="select-class">
+                                <option data-default="true">Select your Class</option>
+                            </select>
+                        </div>
+                        <p id="help-class" class="help is-danger is-hidden">Please select a class</p>
+                    </div>
 
                     <div class="columns">
                         <div class="field column">
@@ -76,4 +95,5 @@
         </div>
     </section>
 </body>
+
 </html>
