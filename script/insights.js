@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-import { getDatabase, ref, get, query, equalTo, orderByChild } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRHTl7hx5umlfi2HFnXt2kCDbNZPCw4iI",
@@ -14,37 +14,97 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const resultRef = ref(database, 'result');
+const resultRef = ref(database, 'average/state');
+const statesRef = ref(database, 'states');
 
-const q1 = query(resultRef,equalTo("info"))
-console.log(q1)
-// get(q1).then((snap) => {
-//   const resultData = snap.val();
-//   console.log(Object.values(resultData))
-// });
+const selectData = $("#select-data");
+selectData.append(`<option>${"score"}</option>`);
+selectData.append(`<option>${"users"}</option>`);
 
+const selectChart = $("#select-chart");
+selectChart.append(`<option>${"bar"}</option>`);
+selectChart.append(`<option>${"line"}</option>`);
+// selectChart.append(`<option>${"pie"}</option>`);
 
+// To detect change in data dropdown
+$(() => {
+  $("#select-data").change(() => {
+    const optionData = $("#select-data").find("option:selected");
+    const optionChart = $("#select-chart").find("option:selected");
+    const isDefault = optionData.attr("data-default") !== undefined;
 
-var xValues = ["Italy", "France", "Spain", "USA", "Argentina", "dttrht", "ejkfwwi", "rjhrh", "rjhrh", "rjhrh", "rjhrh", "rjhrh", "rjhrh"];
-var yValues = [55, 49, 44, 24, 15];
-var barColors = ["red", "green", "blue", "orange", "brown"];
-
-
-
-new Chart("myChart", {
-  type: "bar",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
-  options: {
-    legend: { display: false },
-    title: {
-      display: true,
-      text: "Happiness Report"
+    if (isDefault) {
+      return;
     }
-  }
+
+    const data = optionData.val();
+    const chart = optionChart.val()
+    representData(data, chart)
+  })
 });
+
+// To detect change in chart dropdown
+$(() => {
+  $("#select-chart").change(() => {
+    const optionData = $("#select-data").find("option:selected");
+    const optionChart = $("#select-chart").find("option:selected");
+    const isDefault = optionData.attr("data-default") !== undefined;
+
+    if (isDefault) {
+      return;
+    }
+
+    const data = optionData.val();
+    const chart = optionChart.val()
+    representData(data,chart)
+  })
+});
+
+
+function createChart(xValues, yValues, barColors, type) {
+  var c = document.getElementById("myChart");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, 1000, 500);
+  new Chart("myChart", {
+    type: type,
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "Happiness Report"
+      }
+    }
+  });
+}
+
+function representData(data, ChartType) {
+  const barColors = ["red", "green", "blue", "orange", "brown", "chartreuse", "crimson", "cyan", "darkblue", "darkgrey", "darkorange", "darkslateblue", "darkorchid", "forestgreen", "dodgerblue", "deeppink", "turquoise", "greenyellow", "teal", "lightsalmon", "lightseagreen", "lime", "magenta", "maroon", "mediumblue", "mediumspringgreen", "orange", "navy", "peru", "plum", "red", "royalblue", "silver", "slateblue", "yellow"];
+
+  switch (data) {
+    case 'score':
+      get(resultRef).then((snap) => {
+        const average = snap.val();
+        const score = Object.values(average)
+        const averageScore = score.map(function (item) { return item["averageScore"] })
+
+        createChart(Object.keys(average), score.map(function (item) { return item["averageScore"] }), barColors, ChartType)
+      });
+      break
+    case 'users':
+      get(resultRef).then((snap) => {
+        const average = snap.val();
+        const score = Object.values(average)
+        const averageScore = score.map(function (item) { return item[""] })
+
+        createChart(Object.keys(average), score.map(function (item) { return item["totalUsers"] }), barColors, ChartType)
+      });
+  }
+
+}
