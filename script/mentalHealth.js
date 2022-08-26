@@ -149,7 +149,7 @@ window.onload = () => {
  */
 function createOptions() {
     const radioList = $('<ul>');
-    const options = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+    const options = ["☹️", "🙁", "😐", "😊", "😄"];
 
     options.forEach((option, inx) => {
         const item = $('<li>');

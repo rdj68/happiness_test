@@ -33,8 +33,10 @@ db.get(statesRef).then((snap) => {
 //Append options to class
 $("#select-class > option:not([data-default])").remove();
 const selectClass = $("#select-class");
+selectClass.append(`<option>${"1-4"}</option>`);
 selectClass.append(`<option>${"5-8"}</option>`);
 selectClass.append(`<option>${"9-12"}</option>`);
+selectClass.append(`<option>${"staff"}</option>`);
 
 $(() => {
     $("#select-state").change(() => {
