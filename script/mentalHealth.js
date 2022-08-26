@@ -34,6 +34,7 @@ const firebaseConfig = {
 
 //To get class data
 const classChoice = localStorage.getItem("class")
+console.log(classChoice)
 
 
 // Initialize Firebase
@@ -140,8 +141,6 @@ window.onload = () => {
 
         updateResult(selections, resultRef,weightedMean);
         displayResult(weightedMean)
-        localStorage.clear("id")
-        localStorage.clear("class")
     });
 };
 
@@ -245,7 +244,6 @@ function displayResult(score) {
 
 //Update result to database
 function updateResult(result, resultReference,score) {
-    console.log(result)
     update(resultReference, {
         question: result
     });
@@ -258,6 +256,12 @@ function updateResult(result, resultReference,score) {
         const info = snap.val();
         updateAverage(info["state"],score)
     });
+
+    //To get the school info and pass it to updateAverage function
+    get(infoRef).then((snap) => {
+        const info = snap.val();
+        updateAverageSchool(info["school"],score)
+    });
 }
 //to redirect to login page if id doesnot exist
 function checkId() {
@@ -265,7 +269,7 @@ function checkId() {
         window.location = "login.html"
     }
 }
-
+//To update the average score of states
 function updateAverage(state,score){
     const averageRef = ref(database,"average/state/"+state)
 
@@ -275,6 +279,26 @@ function updateAverage(state,score){
             update(averageRef, {
                 totalUsers: state["totalUsers"] + 1,
                 averageScore:(state["averageScore"] * state["totalUsers"]+score*100)/(state["totalUsers"] +1)
+});
+        }else{
+            update(averageRef, {
+                averageScore:score*100,
+                totalUsers:1
+
+            });
+        }
+    });
+}
+//To update the average score of schools
+function updateAverageSchool(school,score){
+    const averageRef = ref(database,"average/school/"+school)
+
+    get(averageRef).then((snap) => {
+        const school = snap.val();
+        if(school["totalUsers"]){
+            update(averageRef, {
+                totalUsers: school["totalUsers"] + 1,
+                averageScore:(school["averageScore"] * school["totalUsers"]+score*100)/(school["totalUsers"] +1)
 });
         }else{
             update(averageRef, {

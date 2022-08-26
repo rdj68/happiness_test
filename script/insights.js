@@ -15,12 +15,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const resultRef = ref(database, 'average/state');
-const statesRef = ref(database, 'states');
+const cityRef = ref(database, 'average/school');
 var myChart = null
 
 const selectData = $("#select-data");
 selectData.append(`<option>${"score"}</option>`);
 selectData.append(`<option>${"users"}</option>`);
+selectData.append(`<option>${"city"}</option>`);
 
 const selectChart = $("#select-chart");
 selectChart.append(`<option>${"bar"}</option>`);
@@ -106,6 +107,15 @@ function representData(data, ChartType) {
 
         createChart(Object.keys(average), score.map(function (item) { return item["totalUsers"] }), barColors, ChartType)
       });
+      case 'city':
+        get(cityRef).then((snap) => {
+          const average = snap.val();
+          const score = Object.values(average)
+          const averageScore = score.map(function (item) { return item["averageScore"] })
+  
+          createChart(Object.keys(average), score.map(function (item) { return item["averageScore"] }), barColors, ChartType)
+        });
+        break
   }
 
 }
